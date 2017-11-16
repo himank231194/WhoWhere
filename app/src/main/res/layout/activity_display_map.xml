@@ -12,18 +12,34 @@
 
     <com.example.himank.prototype2.ZoomableImageView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:id="@+id/ivChunky"
         android:layout_gravity="center_horizontal"/>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvOutput"/>
-    </ScrollView>
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/bFloorZero"
+        android:text="Show Ground Floor"
+        android:textAllCaps="false"
+        />
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/bFloorOne"
+        android:text="Show First Floor"
+        android:textAllCaps="false"
+        />
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/bFloorTwo"
+        android:text="Show Second Floor"
+        android:textAllCaps="false"
+        />
 
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -21,7 +22,6 @@ public class DisplayMapActivity extends AppCompatActivity {
 
     ArrayList<Integer> x1, y1, x2, y2;
     ArrayList<Integer> path;
-    TextView tv;
     int source;
     ArrayList<Pair<Integer,Integer>> floorTrans;
     ArrayList<Integer> floorImg;
@@ -33,7 +33,6 @@ public class DisplayMapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_map);
-        tv = (TextView) findViewById(R.id.tvOutput);
 
         path = getIntent().getIntegerArrayListExtra(MainActivity.PATH_EXTRAS);
 
@@ -56,14 +55,16 @@ public class DisplayMapActivity extends AppCompatActivity {
         fillArrays();
         zm = (ZoomableImageView) findViewById(R.id.ivChunky);
 
-        curFloor = 2;
+        curFloor = getFloor(source,true);
+        Toast.makeText(this,source+":"+curFloor,Toast.LENGTH_SHORT).show();
 
         setBitmap();
     }
 
-    int getFloor(int n)
+    int getFloor(int n, boolean first)
     {
-        if(n==0) n = source;
+        if(first);
+        else if(n==0) n = source;
         else if(n==source) n=0;
 
         for(int i=0; i<floorTrans.size(); i++)
@@ -71,7 +72,7 @@ public class DisplayMapActivity extends AppCompatActivity {
             if(floorTrans.get(i).first<=n && n<=floorTrans.get(i).second)
                 return i;
         }
-        return 2;
+        return -1;
     }
 
     private void setBitmap() {
@@ -122,7 +123,7 @@ public class DisplayMapActivity extends AppCompatActivity {
         floorTrans.add(new Pair<Integer, Integer>(0, 73));
 
         floorImg.add(0);
-        floorImg.add(0);
+        floorImg.add(R.raw.floorone);
         floorImg.add(R.raw.fuckyou);
     }
 
@@ -139,13 +140,13 @@ public class DisplayMapActivity extends AppCompatActivity {
         //if(getFloor(path.get(0))==curFloor)
         //    canvas.drawLine(x1.get(path.get(0))*cWidth,y1.get(path.get(0))*cHei,x2.get(path.get(0))*cWidth,y2.get(path.get(0)) * cHei, paint);
 
-        if(getFloor(path.get(path.size()-1))==curFloor)
+        if(getFloor(path.get(path.size()-1),false)==curFloor)
             canvas.drawLine(x1.get(path.get(path.size()-1))*cWidth,y1.get(path.get(path.size()-1))*cHei,x2.get(path.get(path.size()-1))*cWidth,y2.get(path.get(path.size()-1))*cHei,paint);
 
         int cum = 0;
         boolean showing=false;
         for(int i=0;i<path.size()-1; i++) {
-            if(getFloor(path.get(i+1))!=curFloor || getFloor(path.get(i))!=curFloor) {
+            if(getFloor(path.get(i+1),false)!=curFloor || getFloor(path.get(i),false)!=curFloor) {
                 if(showing) {
                     canvas.drawLine(x2.get(path.get(i)) * cWidth, y2.get(path.get(i)) * cHei, x1.get(path.get(i)) * cWidth, y1.get(path.get(i)) * cHei, paint);
                 }
@@ -160,7 +161,6 @@ public class DisplayMapActivity extends AppCompatActivity {
 
             canvas.drawCircle(x2.get(path.get(i)) * cWidth, y2.get(path.get(i)) * cHei, 20, paint);
             canvas.drawLine(x2.get(path.get(i)) * cWidth, y2.get(path.get(i)) * cHei, x2.get(path.get(i + 1)) * cWidth, y2.get(path.get(i + 1)) * cHei, paint);
-            tv.setText(tv.getText()+"("+x2.get(path.get(i)) +", " +y2.get(path.get(i))+"): "+path.get(i)+"\n");
             if(Math.abs(x2.get(path.get(i))*cWidth-x2.get(path.get(i+1))*cWidth)+cum >= 80*cWidth) {
                 float x = (x2.get(path.get(i))*cWidth + x2.get(path.get(i+1))*cWidth)/2;
                 float y = (y2.get(path.get(i))*cWidth + y2.get(path.get(i+1))*cWidth)/2;

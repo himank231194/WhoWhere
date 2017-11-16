@@ -108,7 +108,7 @@ public class GraphDikstra {
         if(path==null)
             return "You are there";
         String res = "";
-        res += path.get(0)+"\n";
+        //res += path.get(0)+"\n";
         for(int i=1; i<path.size(); i++)
             res+="-> "+names.get(path.get(i)) + "\n ";
         return res;

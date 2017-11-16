@@ -25,6 +25,7 @@
         android:id="@+id/acType"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
+        android:hint="Enter Source Here"
         />
     <AutoCompleteTextView
         android:layout_marginTop="10dp"
@@ -35,6 +36,7 @@
         android:id="@+id/acType2"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
+        android:hint="Enter Destination Here"
         />
 
     <Button
@@ -46,7 +48,26 @@
         android:id="@+id/bSubmit"
         android:textAllCaps="false"
         android:layout_gravity="center_horizontal" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/footsteps"
+        android:id="@+id/ivSteps"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_gravity="center_vertical"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tvSteps"
+        android:visibility="gone"/>
+</LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -58,7 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/tvResult" />
+            android:id="@+id/tvResult"
+            android:visibility="gone"/>
     </ScrollView>
 
     <Button
@@ -68,5 +90,6 @@
         android:width="200dp"
         android:id="@+id/bShowOnMap"
         android:textAllCaps="false"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"/>
 </LinearLayout>

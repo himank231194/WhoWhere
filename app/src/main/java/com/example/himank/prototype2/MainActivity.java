@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     boolean inputTaken;
     private ArrayList<String> toBeDisplayed3;
     private ArrayList<Integer> path;
+    private TextView tvSteps;
+    ImageView ivSteps;
+    private Button bShowOnMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actv2 = (AutoCompleteTextView) findViewById(R.id.acType2);
         bSubmit = (Button) findViewById(R.id.bSubmit);
         tvResult = (TextView) findViewById(R.id.tvResult);
+        tvSteps=(TextView)findViewById(R.id.tvSteps);
+        ivSteps= (ImageView) findViewById(R.id.ivSteps);
+        bShowOnMap = (Button)findViewById(R.id.bShowOnMap);
+
+
         inputTaken = false;
 
 
@@ -95,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toBeDisplayed = new ArrayList<>();
         for (int i = 0; i < arr.size(); i++) {
             toBeDisplayed.add(arr.get(i).get(0).toUpperCase().trim());
-            tvResult.setText(tvResult.getText()+arr.get(i).get(0).toUpperCase().trim()+"\n");
+            //tvResult.setText(tvResult.getText()+arr.get(i).get(0).toUpperCase().trim()+"\n");
         }
 
         NamesAdapter namesAdapter = new NamesAdapter(
@@ -133,18 +142,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         bSubmit.setOnClickListener(this);
-        findViewById(R.id.bShowOnMap).setOnClickListener(new View.OnClickListener() {
+        bShowOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, DisplayMapActivity.class);
-                if(path==null)
-                {
-                    Toast.makeText(MainActivity.this,"You are there!",Toast.LENGTH_SHORT).show();
+                if (path == null) {
+                    Toast.makeText(MainActivity.this, "You are there!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 ArrayList<Integer> temp = new ArrayList<Integer>(path);
-                temp.set(0,graphDikstra.getSource());
-                intent.putIntegerArrayListExtra(PATH_EXTRAS,temp);
+                temp.set(0, graphDikstra.getSource());
+                intent.putIntegerArrayListExtra(PATH_EXTRAS, temp);
                 startActivity(intent);
             }
         });
@@ -154,6 +162,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bSubmit:
+                ivSteps.setVisibility(View.VISIBLE);
+                tvSteps.setVisibility(View.VISIBLE);
+                tvResult.setVisibility(View.VISIBLE);
+                bShowOnMap.setVisibility(View.VISIBLE);
+
                 hideKeyboard();
                 Log.d("Himank", actv1.getText().toString().trim());
                 Log.d("Himank", actv2.getText().toString().trim());
@@ -195,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 graphDikstra.setSource(src);
                 path = graphDikstra.dijkstra(dest);
 
+                tvSteps.setText(path.get(0) + " Steps");
                 tvResult.setText(graphDikstra.solutionToString(path));
                 graphDikstra.reset();
                 break;
